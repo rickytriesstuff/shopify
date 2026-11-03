@@ -1,0 +1,19 @@
+<header style="border-bottom:1px solid #eeeeee;">
+  <div class="page-width" style="min-height:76px;display:flex;align-items:center;justify-content:space-between;gap:24px;">
+    <a href="{{ routes.root_url }}" style="font-size:22px;font-weight:700;text-decoration:none;letter-spacing:-.04em;">{{ shop.name }}</a>
+    <nav aria-label="Main navigation" style="display:flex;align-items:center;gap:22px;">
+      {% for link in section.settings.menu.links %}
+        <a href="{{ link.url }}" style="font-size:14px;text-decoration:none;">{{ link.title }}</a>
+      {% endfor %}
+    </nav>
+    <a href="{{ routes.cart_url }}" style="font-size:14px;text-decoration:none;">Cart ({{ cart.item_count }})</a>
+  </div>
+</header>
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    { "type": "link_list", "id": "menu", "label": "Menu", "default": "main-menu" }
+  ]
+}
+{% endschema %}
