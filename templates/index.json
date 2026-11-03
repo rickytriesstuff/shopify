@@ -12,13 +12,37 @@
     "main": {
       "type": "main-index",
       "settings": {
-        "hero_video": "shopify://files/videos/8dcffc603adc173f8b1432115b9bedaf.mp4",
-        "hero_product": "stgaubron-gaming-pc-desktop-core-i5-rtx-2060-6g-16g-ram-512g-ssd",
+        "hero_collection_1": "",
+        "hero_collection_2": "",
+        "hero_collection_3": "",
+        "hero_collection_4": "",
+        "hero_collection_5": "",
+        "hero_collection_6": "",
+        "collection_heading": "Featured products"
+      }
+    },
+    "main_index_3teLHY": {
+      "type": "main-index",
+      "name": "Main homepage",
+      "settings": {
+        "hero_video_1": "shopify://files/videos/4baf0d4c8d8069c55f803404231d3920_720w.mp4",
+        "hero_collection_1": "gaming-pcs-and-electronics",
+        "hero_video_2": "shopify://files/videos/6e210539289080d1e8edcab78725067f_720w.mp4",
+        "hero_collection_2": "phones-and-accessories",
+        "hero_video_3": "shopify://files/videos/feaf085d907608a40b3f9134367934b1_720w.mp4",
+        "hero_collection_3": "womens",
+        "hero_video_4": "shopify://files/videos/d8273cb04305073d03a2ac0408d244e9.mp4",
+        "hero_collection_4": "men",
+        "hero_video_5": "shopify://files/videos/cc39e7df32b6507b9f028d4a16a5195c_720w.mp4",
+        "hero_collection_5": "kids-clothing",
+        "hero_video_6": "shopify://files/videos/48789853b8bfab58f987b75f361895b2_720w.mp4",
+        "hero_collection_6": "fancy-goods",
         "collection_heading": "Featured products"
       }
     }
   },
   "order": [
-    "main"
+    "main",
+    "main_index_3teLHY"
   ]
 }
