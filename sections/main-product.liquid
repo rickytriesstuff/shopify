@@ -1,0 +1,57 @@
+<style>
+.product-page{padding-top:clamp(38px,6vw,80px);padding-bottom:100px;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(320px,.9fr);gap:clamp(30px,6vw,90px);align-items:start}
+.product-gallery{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.product-gallery__item{min-width:0;display:flex;align-items:center;justify-content:center;background:transparent;overflow:hidden}
+.product-gallery__item--wide{grid-column:1/-1}
+.product-gallery__item img,.product-gallery__item video,.product-gallery__item iframe,.product-gallery__item model-viewer{display:block;width:100%;max-height:780px;object-fit:contain}
+.product-info{position:sticky;top:35px}
+.product-info__vendor{color:#c7e5b6;font-size:10px;letter-spacing:.18em;text-transform:uppercase}
+.product-info h1{font:400 clamp(38px,5vw,64px)/1.03 Georgia,serif;letter-spacing:-.05em;margin:16px 0}
+.product-info__price{font-size:17px;color:#c7e5b6;margin:22px 0}
+.product-info__description{color:rgba(245,248,241,.7);font-size:14px;line-height:1.85;margin:28px 0}
+.product-info__form{display:grid;gap:16px}
+.product-info__form select,.product-info__form input{width:100%;background:transparent;color:#f5f8f1;border:1px solid rgba(245,248,241,.28);padding:14px}
+.product-info__form select option{color:#082f25}
+.product-info__form button{width:100%}
+.product-info__form button:disabled{opacity:.45;cursor:not-allowed}
+.product-info__note{font-size:11px;color:rgba(245,248,241,.55);margin-top:14px}
+@media(max-width:800px){.product-page{grid-template-columns:1fr;gap:36px}.product-info{position:static}.product-gallery{gap:9px}}
+</style>
+<section class="page-width product-page">
+ <div class="product-gallery">
+  {% assign has_video = false %}
+  {% for media in product.media %}{% if media.media_type == 'video' or media.media_type == 'external_video' %}{% assign has_video = true %}{% endif %}{% endfor %}
+  {% for media in product.media %}
+   {% if media.media_type == 'video' or media.media_type == 'external_video' %}
+    <div class="product-gallery__item {% if has_video and forloop.first %}product-gallery__item--wide{% endif %}">
+     {% if media.media_type == 'video' %}{{ media | media_tag: controls: true, preload: 'metadata' }}{% else %}{{ media | external_video_tag }}{% endif %}
+    </div>
+   {% endif %}
+  {% endfor %}
+  {% for media in product.media %}
+   {% unless media.media_type == 'video' or media.media_type == 'external_video' %}
+    <div class="product-gallery__item">{% if media.media_type == 'image' %}{{ media | image_url: width: 1400 | image_tag: loading:'lazy', alt:media.alt | default:product.title }}{% else %}{{ media | media_tag }}{% endif %}</div>
+   {% endunless %}
+  {% endfor %}
+ </div>
+ <div class="product-info">
+  {% if product.vendor != blank %}<p class="product-info__vendor">{{ product.vendor | escape }}</p>{% endif %}
+  <h1>{{ product.title | escape }}</h1>
+  <p class="product-info__price">{{ product.selected_or_first_available_variant.price | money }}</p>
+  {% if product.description != blank %}<div class="product-info__description">{{ product.description }}</div>{% endif %}
+  {% form 'product', product, class:'product-info__form' %}
+   {% if product.has_only_default_variant == false %}
+    <label for="ProductVariant-{{ section.id }}">Choose an option</label>
+    <select id="ProductVariant-{{ section.id }}" name="id">
+     {% for variant in product.variants %}<option value="{{ variant.id }}" {% if variant == product.selected_or_first_available_variant %}selected{% endif %} {% unless variant.available %}disabled{% endunless %}>{{ variant.title | escape }} · {{ variant.price | money }}{% unless variant.available %} · Sold out{% endunless %}</option>{% endfor %}
+    </select>
+   {% else %}<input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">{% endif %}
+   <label for="Quantity-{{ section.id }}">Quantity</label><input id="Quantity-{{ section.id }}" type="number" name="quantity" value="1" min="1">
+   <button class="button" type="submit" name="add" {% unless product.selected_or_first_available_variant.available %}disabled{% endunless %}>{% if product.selected_or_first_available_variant.available %}Add to bag{% else %}Sold out{% endif %}</button>
+  {% endform %}
+  <p class="product-info__note">Secure checkout · Carefully selected essentials</p>
+ </div>
+</section>
+{% schema %}
+{"name":"Product details","settings":[]}
+{% endschema %}
