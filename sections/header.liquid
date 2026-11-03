@@ -5,13 +5,16 @@
 .site-header{position:relative;z-index:10;border-bottom:1px solid rgba(245,248,241,.14);background:#082f25}
 .site-header__top{min-height:82px;display:flex;align-items:center;justify-content:space-between;gap:24px}
 .site-header__brand{color:#f5f8f1;font:26px Georgia,serif;letter-spacing:-.045em;text-decoration:none}
-.site-header__cart{color:#c7e5b6;font-size:10px;letter-spacing:.15em;text-transform:uppercase;text-decoration:none;white-space:nowrap}
+.site-header__cart{display:inline-flex;align-items:center;gap:9px;color:#fff;font-size:12px;font-weight:700;letter-spacing:.04em;text-decoration:none;white-space:nowrap;padding:10px 14px;border:1px solid rgba(255,255,255,.3);border-radius:7px;transition:background .2s,border-color .2s}
+.site-header__cart:hover{background:#174b3d;border-color:#fff}
+.site-header__cart svg{width:20px;height:20px;display:block}
+.site-header__cart-count{display:inline-grid;place-items:center;min-width:20px;height:20px;padding:0 5px;border-radius:999px;background:#2563eb;color:#fff;font-size:11px}
 .site-header__nav-wrap{border-top:1px solid rgba(245,248,241,.1)}
 .site-header__nav{display:flex;align-items:center;gap:27px;overflow-x:auto;scrollbar-width:none;padding:15px 0;white-space:nowrap}
 .site-header__nav::-webkit-scrollbar{display:none}
 .site-header__nav a{color:rgba(245,248,241,.78);font-size:10px;font-weight:600;letter-spacing:.11em;text-transform:uppercase;text-decoration:none;transition:color .2s}
 .site-header__nav a:hover,.site-header__nav a[aria-current=page]{color:#c7e5b6}
-@media(max-width:700px){.site-promo{font-size:10px;padding:9px 10px}.site-promo__inner{gap:7px}.site-promo__timer{font-size:12px}.site-header__top{min-height:68px}.site-header__brand{font-size:23px}.site-header__nav{gap:22px;padding:13px 0}.site-header__nav a{font-size:9px}}
+@media(max-width:700px){.site-promo{font-size:10px;padding:9px 10px}.site-promo__inner{gap:7px}.site-promo__timer{font-size:12px}.site-header__top{min-height:68px}.site-header__brand{font-size:23px}.site-header__nav{gap:22px;padding:13px 0}.site-header__nav a{font-size:9px}.site-header__cart{padding:8px 10px;gap:6px}.site-header__cart svg{width:18px;height:18px}}
 </style>
 <div class="site-promo" role="status" aria-label="Christmas offer, 50 percent off">
  <div class="site-promo__inner">
@@ -40,7 +43,10 @@
 <header class="site-header">
  <div class="page-width site-header__top">
   <a class="site-header__brand" href="{{ routes.root_url }}">{{ shop.name }}</a>
-  <a class="site-header__cart" href="{{ routes.cart_url }}">Bag ({{ cart.item_count }})</a>
+  <a class="site-header__cart" href="{{ routes.cart_url }}" aria-label="View cart, {{ cart.item_count }} items">
+   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="21" r="1"></circle><circle cx="19" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+   <span>Cart</span><span class="site-header__cart-count">{{ cart.item_count }}</span>
+  </a>
  </div>
  <div class="site-header__nav-wrap">
   <nav class="page-width site-header__nav" aria-label="Shop categories">
