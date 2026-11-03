@@ -1,21 +1,22 @@
 <style>
-.product-page{padding-top:clamp(38px,6vw,80px);padding-bottom:100px;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(320px,.9fr);gap:clamp(30px,6vw,90px);align-items:start}
-.product-gallery{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
-.product-gallery__item{min-width:0;display:flex;align-items:center;justify-content:center;background:transparent;overflow:hidden}
+.product-page{padding-top:clamp(32px,5vw,68px);padding-bottom:80px;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(320px,.9fr);gap:clamp(28px,5vw,72px);align-items:start}
+.product-gallery{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.product-gallery__item{min-width:0;display:flex;align-items:center;justify-content:center;background:transparent;overflow:hidden;min-height:0}
 .product-gallery__item--wide{grid-column:1/-1}
-.product-gallery__item img,.product-gallery__item video,.product-gallery__item iframe,.product-gallery__item model-viewer{display:block;width:100%;max-height:780px;object-fit:contain}
+.product-gallery__item img,.product-gallery__item video,.product-gallery__item iframe,.product-gallery__item model-viewer{display:block;width:100%;max-height:680px;object-fit:contain}
 .product-info{position:sticky;top:35px}
 .product-info__vendor{color:#c7e5b6;font-size:10px;letter-spacing:.18em;text-transform:uppercase}
-.product-info h1{font:400 clamp(38px,5vw,64px)/1.03 Georgia,serif;letter-spacing:-.05em;margin:16px 0}
-.product-info__price{font-size:17px;color:#c7e5b6;margin:22px 0}
-.product-info__description{color:rgba(245,248,241,.7);font-size:14px;line-height:1.85;margin:28px 0}
-.product-info__form{display:grid;gap:16px}
-.product-info__form select,.product-info__form input{width:100%;background:transparent;color:#f5f8f1;border:1px solid rgba(245,248,241,.28);padding:14px}
+.product-info h1{font:400 clamp(34px,4.5vw,58px)/1.03 Georgia,serif;letter-spacing:-.05em;margin:14px 0}
+.product-info__price{display:inline-block;font-size:20px;font-weight:700;line-height:1.25;color:#d8f0c9;margin:12px 0 20px}
+.product-info__description{color:rgba(245,248,241,.75);font-size:14px;line-height:1.8;margin:22px 0}
+.product-info__form{display:grid;gap:14px}
+.product-info__form select,.product-info__form input{width:100%;background:transparent;color:#f5f8f1;border:1px solid rgba(245,248,241,.35);padding:14px}
 .product-info__form select option{color:#082f25}
 .product-info__form button{width:100%}
 .product-info__form button:disabled{opacity:.45;cursor:not-allowed}
-.product-info__note{font-size:11px;color:rgba(245,248,241,.55);margin-top:14px}
-@media(max-width:800px){.product-page{grid-template-columns:1fr;gap:36px}.product-info{position:static}.product-gallery{gap:9px}}
+.product-info__note{font-size:11px;color:rgba(245,248,241,.62);margin-top:14px}
+@media(max-width:800px){.product-page{grid-template-columns:1fr;gap:24px;padding-top:22px;padding-bottom:55px}.product-info{position:static}.product-gallery{gap:8px}.product-gallery__item img,.product-gallery__item video,.product-gallery__item iframe,.product-gallery__item model-viewer{max-height:340px}.product-info h1{font-size:34px;margin:10px 0}.product-info__price{font-size:21px;margin:8px 0 14px}}
+@media(max-width:480px){.product-gallery{grid-template-columns:repeat(2,minmax(0,1fr))}.product-gallery__item img,.product-gallery__item video,.product-gallery__item iframe,.product-gallery__item model-viewer{max-height:230px}.product-gallery__item--wide img,.product-gallery__item--wide video,.product-gallery__item--wide iframe{max-height:280px}}
 </style>
 <section class="page-width product-page">
  <div class="product-gallery">
@@ -30,7 +31,7 @@
   {% endfor %}
   {% for media in product.media %}
    {% unless media.media_type == 'video' or media.media_type == 'external_video' %}
-    <div class="product-gallery__item">{% if media.media_type == 'image' %}{{ media | image_url: width: 1400 | image_tag: loading:'lazy', alt:media.alt | default:product.title }}{% else %}{{ media | media_tag }}{% endif %}</div>
+    <div class="product-gallery__item">{% if media.media_type == 'image' %}{{ media | image_url: width: 1200 | image_tag: loading:'lazy', alt:media.alt | default:product.title }}{% else %}{{ media | media_tag }}{% endif %}</div>
    {% endunless %}
   {% endfor %}
  </div>
