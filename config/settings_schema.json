@@ -1,8 +1,8 @@
 [
   {
     "name": "theme_info",
-    "theme_name": "Studio Starter",
-    "theme_version": "1.0.0",
+    "theme_name": "Evergreen Atelier",
+    "theme_version": "1.1.0",
     "theme_author": "Store Theme",
     "theme_documentation_url": "https://help.shopify.com/",
     "theme_support_url": "https://help.shopify.com/"
@@ -14,19 +14,19 @@
         "type": "color",
         "id": "color_background",
         "label": "Background",
-        "default": "#ffffff"
+        "default": "#082f25"
       },
       {
         "type": "color",
         "id": "color_text",
         "label": "Text",
-        "default": "#171717"
+        "default": "#f5f8f1"
       },
       {
         "type": "color",
         "id": "color_accent",
         "label": "Accent",
-        "default": "#171717"
+        "default": "#c7e5b6"
       }
     ]
   }
