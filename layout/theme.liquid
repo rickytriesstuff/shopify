@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="{{ settings.color_background }}">
+    <meta name="theme-color" content="#082f25">
     <link rel="canonical" href="{{ canonical_url }}">
     <title>{{ page_title }}{% if current_tags %} – {{ current_tags | join: ', ' }}{% endif %}{% if current_page != 1 %} – Page {{ current_page }}{% endif %}{% unless page_title contains shop.name %} – {{ shop.name }}{% endunless %}</title>
     {% if page_description %}<meta name="description" content="{{ page_description | escape }}">{% endif %}
@@ -11,24 +11,25 @@
     <style>
       :root {
         --page-width: 1480px;
-        --color-text: {{ settings.color_text }};
-        --color-background: {{ settings.color_background }};
-        --color-accent: {{ settings.color_accent }};
-        --color-muted: rgba(245,248,241,.66);
-        --color-line: rgba(245,248,241,.14);
+        --color-text: #111111;
+        --color-background: #ffffff;
+        --color-accent: #2563eb;
+        --color-muted: #555555;
+        --color-line: #e5e7eb;
       }
       * { box-sizing: border-box; }
-      html { background: var(--color-background); scroll-behavior: smooth; }
-      body { margin: 0; color: var(--color-text); background: var(--color-background); font-family: Inter, "Helvetica Neue", Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+      html { background: #fff; scroll-behavior: smooth; }
+      body { margin: 0; color: #111; background: #fff; font-family: Inter, "Helvetica Neue", Arial, sans-serif; -webkit-font-smoothing: antialiased; }
       a { color: inherit; }
       img, video { max-width: 100%; height: auto; }
       button, input, select { font: inherit; }
       .page-width { width: min(calc(100% - 64px), var(--page-width)); margin-inline: auto; }
-      .button { display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 15px 24px; background: var(--color-accent); color: #102b21; text-decoration: none; border: 1px solid var(--color-accent); border-radius: 999px; font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; cursor: pointer; transition: transform .25s ease, background .25s ease; }
-      .button:hover { transform: translateY(-2px); background: #d9efca; }
-      .eyebrow { color: var(--color-accent); font-size: 10px; font-weight: 700; letter-spacing: .22em; text-transform: uppercase; }
-      .muted { color: var(--color-muted); }
-      ::selection { background: var(--color-accent); color: #102b21; }
+      .button { display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 15px 24px; background: #2563eb; color: #fff; text-decoration: none; border: 1px solid #2563eb; border-radius: 8px; font-size: 13px; font-weight: 700; letter-spacing: .03em; cursor: pointer; transition: transform .2s ease, background .2s ease; }
+      .button:hover { transform: translateY(-1px); background: #1d4ed8; }
+      .button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible { outline: 3px solid #93c5fd; outline-offset: 3px; }
+      .eyebrow { color: #2563eb; font-size: 10px; font-weight: 700; letter-spacing: .22em; text-transform: uppercase; }
+      .muted { color: #555; }
+      ::selection { background: #bfdbfe; color: #111; }
       @media (max-width: 700px) { .page-width { width: min(calc(100% - 36px), var(--page-width)); } }
     </style>
   </head>
