@@ -1,0 +1,72 @@
+<style>
+.cart-page{padding:clamp(34px,6vw,76px) 0 90px;color:#111}
+.cart-page__heading{font:400 clamp(36px,5vw,58px)/1.05 Georgia,serif;margin:0 0 12px;color:#111}
+.cart-page__intro{color:#475569;font-size:14px;margin:0 0 30px}
+.cart-empty{padding:36px 0;border-top:1px solid #e5e7eb}
+.cart-empty p{color:#333;font-size:15px}
+.cart-layout{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:38px;align-items:start}
+.cart-items{border-top:1px solid #e5e7eb}
+.cart-item{display:grid;grid-template-columns:116px minmax(0,1fr) auto;gap:18px;align-items:start;padding:22px 0;border-bottom:1px solid #e5e7eb}
+.cart-item__image{width:116px;aspect-ratio:1;object-fit:contain;background:#fff}
+.cart-item__title{margin:0 0 7px;color:#111;font-size:15px;font-weight:700;text-decoration:none}
+.cart-item__variant{margin:0 0 10px;color:#64748b;font-size:12px}
+.cart-item__price{color:#111;font-size:14px;font-weight:800}
+.cart-item__quantity{display:flex;align-items:center;gap:9px;margin-top:14px}
+.cart-item__quantity label{font-size:12px;color:#334155}
+.cart-item__quantity input{width:74px;padding:9px;border:1px solid #cbd5e1;border-radius:6px;color:#111;background:#fff}
+.cart-item__remove{display:inline-block;margin-top:10px;color:#2563eb;font-size:12px;text-decoration:underline}
+.cart-item__line-total{color:#111;font-weight:800;font-size:14px;white-space:nowrap}
+.cart-summary{padding:24px;background:#f1f5f9;border:1px solid #dbeafe;border-radius:12px}
+.cart-summary h2{margin:0 0 18px;color:#111;font-size:18px}
+.cart-summary__row{display:flex;justify-content:space-between;gap:12px;padding:10px 0;color:#334155;font-size:14px}
+.cart-summary__total{border-top:1px solid #cbd5e1;margin-top:8px;padding-top:17px;color:#111;font-size:17px;font-weight:800}
+.cart-summary__note{color:#64748b;font-size:12px;line-height:1.6;margin:14px 0}
+.cart-summary__checkout{width:100%;margin-top:8px;min-height:52px}
+.cart-summary__continue{display:block;margin-top:14px;text-align:center;color:#2563eb;font-size:13px;text-decoration:underline}
+.cart-actions{display:flex;justify-content:flex-end;margin-top:18px}
+.cart-actions button{background:#fff;color:#1d4ed8;border:1px solid #2563eb;border-radius:7px;padding:11px 18px;font-size:13px;font-weight:700;cursor:pointer}
+@media(max-width:800px){.cart-layout{grid-template-columns:1fr;gap:22px}.cart-summary{order:-1}}
+@media(max-width:520px){.cart-item{grid-template-columns:82px minmax(0,1fr);gap:12px}.cart-item__image{width:82px}.cart-item__line-total{grid-column:2}.cart-item__title{font-size:13px}.cart-summary{padding:19px}}
+</style>
+<section class="page-width cart-page">
+ <h1 class="cart-page__heading">Your cart</h1>
+ <p class="cart-page__intro">{% if cart.item_count > 0 %}You have {{ cart.item_count }} {% if cart.item_count == 1 %}item{% else %}items{% endif %} ready for checkout.{% else %}Your cart is waiting for something good.{% endif %}</p>
+ {% if cart.item_count == 0 %}
+  <div class="cart-empty"><p>Your cart is currently empty.</p><a class="button" href="{{ routes.all_products_collection_url }}">Continue shopping</a></div>
+ {% else %}
+  {% form 'cart', cart %}
+   <div class="cart-layout">
+    <div>
+     <div class="cart-items">
+      {% for item in cart.items %}
+       <article class="cart-item">
+        <a href="{{ item.url }}">{% if item.image %}{{ item.image | image_url: width: 300 | image_tag: class:'cart-item__image', loading:'lazy', alt:item.product.title }}{% else %}<span class="cart-item__image"></span>{% endif %}</a>
+        <div>
+         <a class="cart-item__title" href="{{ item.url }}">{{ item.product.title | escape }}</a>
+         {% unless item.product.has_only_default_variant %}<p class="cart-item__variant">{{ item.variant.title | escape }}</p>{% endunless %}
+         <div class="cart-item__price">{{ item.final_price | money }} each</div>
+         <div class="cart-item__quantity"><label for="CartQuantity-{{ forloop.index }}">Quantity</label><input id="CartQuantity-{{ forloop.index }}" type="number" name="updates[]" value="{{ item.quantity }}" min="0" aria-label="Quantity for {{ item.product.title | escape }}"></div>
+         <a class="cart-item__remove" href="{{ item.url_to_remove }}">Remove</a>
+        </div>
+        <div class="cart-item__line-total">{{ item.final_line_price | money }}</div>
+       </article>
+      {% endfor %}
+     </div>
+     <div class="cart-actions"><button type="submit" name="update">Update cart</button></div>
+    </div>
+    <aside class="cart-summary">
+     <h2>Order summary</h2>
+     <div class="cart-summary__row"><span>Subtotal</span><strong>{{ cart.total_price | money }}</strong></div>
+     <div class="cart-summary__row"><span>Shipping</span><span>Calculated at checkout</span></div>
+     <div class="cart-summary__row cart-summary__total"><span>Estimated total</span><strong>{{ cart.total_price | money }}</strong></div>
+     <p class="cart-summary__note">Shipping, taxes and any applicable discounts are confirmed at checkout.</p>
+     <button class="button cart-summary__checkout" type="submit" name="checkout">Proceed to checkout</button>
+     <a class="cart-summary__continue" href="{{ routes.all_products_collection_url }}">Continue shopping</a>
+    </aside>
+   </div>
+  {% endform %}
+ {% endif %}
+</section>
+{% schema %}
+{"name":"Cart page","settings":[]}
+{% endschema %}
