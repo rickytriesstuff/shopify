@@ -1,8 +1,21 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
       "type": "main-index",
-      "settings": {}
+      "settings": {
+        "hero_video": "shopify://files/videos/8dcffc603adc173f8b1432115b9bedaf.mp4",
+        "hero_product": "stgaubron-gaming-pc-desktop-core-i5-rtx-2060-6g-16g-ram-512g-ssd",
+        "collection_heading": "Featured products"
+      }
     }
   },
   "order": [
