@@ -9,18 +9,6 @@
  */
 {
   "sections": {
-    "main": {
-      "type": "main-index",
-      "settings": {
-        "hero_collection_1": "",
-        "hero_collection_2": "",
-        "hero_collection_3": "",
-        "hero_collection_4": "",
-        "hero_collection_5": "",
-        "hero_collection_6": "",
-        "collection_heading": "Featured products"
-      }
-    },
     "main_index_3teLHY": {
       "type": "main-index",
       "name": "Main homepage",
@@ -42,7 +30,6 @@
     }
   },
   "order": [
-    "main",
     "main_index_3teLHY"
   ]
 }
