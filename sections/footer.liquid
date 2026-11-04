@@ -1,15 +1,53 @@
 <style>
-  .site-footer { margin-top:50px; padding:34px 0; border-top:1px solid rgba(245,248,241,.14); }
-  .site-footer__inner { display:flex; align-items:center; justify-content:space-between; gap:20px; flex-wrap:wrap; }
-  .site-footer__brand { color:#f5f8f1; font-family:Georgia,serif; font-size:20px; }
-  .site-footer__copy { color:rgba(245,248,241,.55); font-size:10px; letter-spacing:.08em; }
+.site-footer{margin-top:56px;padding:52px 0 24px;background:#050807;color:#f5f8f1;border-top:1px solid rgba(199,229,182,.18)}
+.site-footer__grid{display:grid;grid-template-columns:1.35fr .65fr;gap:40px 8%}
+.site-footer h2{margin:0 0 15px;color:#fff;font-size:15px;font-weight:800;text-transform:uppercase}
+.site-footer__news h2{font-size:clamp(25px,3vw,33px);text-transform:none;letter-spacing:-.03em;margin-bottom:8px}
+.site-footer p{color:rgba(245,248,241,.75);font-size:13px;line-height:1.6;margin:0 0 17px}
+.site-footer__form{display:flex;max-width:560px;min-height:52px}
+.site-footer__form input{flex:1;min-width:0;padding:0 16px;border:0;border-radius:0;background:#fff;color:#111}
+.site-footer__form button{padding:0 25px;border:0;background:#c7e5b6;color:#082f25;font-weight:800;cursor:pointer}
+.site-footer__privacy{display:inline-block;margin-top:12px;font-size:11px;font-weight:700;text-decoration:underline}
+.site-footer__links{display:grid;gap:15px}
+.site-footer__links a,.site-footer__policies a{width:fit-content;color:rgba(245,248,241,.88);font-size:13px;font-weight:650;text-decoration:none}
+.site-footer__links a:hover,.site-footer__policies a:hover{color:#c7e5b6;text-decoration:underline}
+.site-footer__lower{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:28px 8%;align-items:end}
+.site-footer__socials{display:flex;align-items:center;flex-wrap:wrap;gap:17px}
+.site-footer__socials a{display:inline-flex;width:27px;height:27px;color:#fff}
+.site-footer__socials a:hover{color:#c7e5b6}
+.site-footer__socials svg{width:26px;height:26px;fill:currentColor}
+.site-footer__payments p{font-size:11px;margin-bottom:11px}
+.site-footer__payment-icons{display:flex;flex-wrap:wrap;align-items:center;gap:7px}
+.site-footer__payment-icons svg{height:26px;width:auto;max-width:48px;background:#fff;border-radius:4px;padding:2px}
+.site-footer__bottom{grid-column:1/-1;display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap;padding-top:20px;border-top:1px solid rgba(245,248,241,.17);color:rgba(245,248,241,.6);font-size:10px}
+.site-footer__policies{display:flex;flex-wrap:wrap;gap:16px}
+.site-footer__policies a{font-size:10px;text-decoration:underline}
+@media(max-width:700px){.site-footer{padding:38px 0 22px}.site-footer__grid,.site-footer__lower{grid-template-columns:1fr;gap:30px}.site-footer__form button{padding:0 16px}}
 </style>
-<footer class="site-footer">
-  <div class="page-width site-footer__inner">
-    <span class="site-footer__brand">{{ shop.name }}</span>
-    <span class="site-footer__copy">© {{ 'now' | date: '%Y' }} {{ shop.name }}. ALL RIGHTS RESERVED.</span>
-  </div>
-</footer>
-{% schema %}
-{ "name": "Footer", "settings": [] }
-{% endschema %}
+<footer class="site-footer"><div class="page-width site-footer__grid">
+<section class="site-footer__news"><h2>{{ section.settings.newsletter_heading | escape }}</h2><p>{{ section.settings.newsletter_text | escape }}</p>
+{% form 'customer', class:'site-footer__form' %}<input type="hidden" name="contact[tags]" value="newsletter"><label class="visually-hidden" for="FooterEmail-{{ section.id }}">Email address</label><input id="FooterEmail-{{ section.id }}" type="email" name="contact[email]" value="{{ form.email }}" placeholder="Enter your email" autocomplete="email" required><button type="submit">SUBMIT</button>{% endform %}
+{% if form.posted_successfully? %}<p>Thanks for subscribing!</p>{% endif %}{% if form.errors %}<p>{{ form.errors | default_errors }}</p>{% endif %}
+{% if shop.policies.privacy_policy != blank %}<a class="site-footer__privacy" href="{{ shop.policies.privacy_policy.url }}">Privacy Policy</a>{% endif %}</section>
+<nav aria-label="Support"><h2>{{ section.settings.support_heading | escape }}</h2><div class="site-footer__links">
+{% if section.settings.support_menu != blank %}{% for link in section.settings.support_menu.links %}<a href="{{ link.url }}">{{ link.title | escape }}</a>{% endfor %}
+{% else %}{% if shop.policies.shipping_policy != blank %}<a href="{{ shop.policies.shipping_policy.url }}">Shipping & Returns</a>{% endif %}{% if shop.policies.refund_policy != blank %}<a href="{{ shop.policies.refund_policy.url }}">Refund Policy</a>{% endif %}{% if shop.email != blank %}<a href="mailto:{{ shop.email }}">Contact Us</a>{% endif %}{% endif %}
+</div></nav>
+<div class="site-footer__lower"><section><h2>{{ section.settings.social_heading | escape }}</h2><div class="site-footer__socials">
+{% assign socials = 'facebook,instagram,youtube,tiktok,snapchat,pinterest' | split: ',' %}
+{% for social in socials %}{% assign setting_id = social | append: '_url' %}{% assign social_url = section.settings[setting_id] %}{% if social_url != blank %}
+<a href="{{ social_url }}" target="_blank" rel="noopener noreferrer" aria-label="{{ social | capitalize }}">
+{% case social %}
+{% when 'facebook' %}<svg viewBox="0 0 24 24"><path d="M24 12a12 12 0 1 0-13.9 11.9v-8.4H7.1V12h3V9.4c0-3 1.8-4.7 4.6-4.7 1.3 0 2.7.2 2.7.2v3h-1.5c-1.5 0-2 .9-2 1.9V12h3.4l-.5 3.5h-2.9v8.4A12 12 0 0 0 24 12"/></svg>
+{% when 'instagram' %}<svg viewBox="0 0 24 24"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm0 2.2A2.8 2.8 0 0 0 4.2 7v10A2.8 2.8 0 0 0 7 19.8h10a2.8 2.8 0 0 0 2.8-2.8V7A2.8 2.8 0 0 0 17 4.2H7zM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 2.2a2.8 2.8 0 1 0 0 5.6 2.8 2.8 0 0 0 0-5.6zm5.2-3.7a1.2 1.2 0 1 1 0 2.4 1.2 1.2 0 0 1 0-2.4z"/></svg>
+{% when 'youtube' %}<svg viewBox="0 0 24 24"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.6 15.6V8.4l6.2 3.6z"/></svg>
+{% when 'tiktok' %}<svg viewBox="0 0 24 24"><path d="M19.6 6.2a5.8 5.8 0 0 1-3.8-4.8V1h-4.2v15.1a2.9 2.9 0 1 1-2-2.8V9a7.1 7.1 0 1 0 6.2 7V8.4a10 10 0 0 0 5.8 1.8V6a5.8 5.8 0 0 1-2-.0z"/></svg>
+{% when 'snapchat' %}<svg viewBox="0 0 24 24"><path d="M12 2c-3.1 0-5.1 2.3-5.1 5.5 0 1 .2 2 .3 2.8-.5.3-1.2.3-1.7.1-.4-.2-.8-.1-1 .2-.2.4 0 .8.5 1 .6.3 1.2.4 1.8.3-.4.8-1.3 1.6-2.4 2.1-.5.2-.6.7-.2 1 .4.3 1 .5 1.6.5.3.9 1.2 1.2 2.1 1.3 1 .2 1.8.5 2.6 1.2.5.4 1 .6 1.5.6s1-.2 1.5-.6c.8-.7 1.6-1 2.6-1.2.9-.1 1.8-.4 2.1-1.3.6 0 1.2-.2 1.6-.5.4-.3.3-.8-.2-1-1.1-.5-2-1.3-2.4-2.1.6.1 1.2 0 1.8-.3.5-.2.7-.6.5-1-.2-.3-.6-.4-1-.2-.5.2-1.2.2-1.7-.1.1-.8.3-1.8.3-2.8C17.1 4.3 15.1 2 12 2z"/></svg>
+{% when 'pinterest' %}<svg viewBox="0 0 24 24"><path d="M12 0a12 12 0 0 0-4.4 23.2c-.1-1.9 0-4.2.5-6.3l1.5-6.4s-.4-.8-.4-2c0-1.9 1.1-3.3 2.5-3.3 1.2 0 1.8.9 1.8 2 0 1.2-.8 3-1.2 4.7-.4 1.4.7 2.5 2 2.5 2.4 0 4.2-3.1 4.2-6.8 0-2.8-1.9-4.9-5.3-4.9-3.9 0-6.3 2.9-6.3 6.1 0 1.1.3 1.9.9 2.5.3.3.3.4.2.8l-.3 1c-.1.3-.4.4-.7.3-1.7-.7-2.5-2.6-2.5-4.7 0-3.5 3-7.7 9-7.7 4.8 0 8 3.5 8 7.3 0 5-2.8 8.8-6.9 8.8-1.4 0-2.8-.8-3.3-1.7l-.9 3.6c-.3 1.1-.9 2.2-1.4 3A12 12 0 1 0 12 0z"/></svg>
+{% endcase %}</a>{% endif %}{% endfor %}
+</div></section>
+<section class="site-footer__payments"><h2>Secure checkout</h2><p>Payment methods currently enabled for your store:</p>{% if shop.enabled_payment_types.size > 0 %}<div class="site-footer__payment-icons">{% for type in shop.enabled_payment_types %}{{ type | payment_type_svg_tag: class:'payment-icon' }}{% endfor %}</div>{% else %}<p>Available payment methods will appear at checkout.</p>{% endif %}</section></div>
+<div class="site-footer__bottom"><span>© {{ 'now' | date: '%Y' }} {{ shop.name }}. Powered by Shopify.</span><div class="site-footer__policies">
+{% if shop.policies.refund_policy != blank %}<a href="{{ shop.policies.refund_policy.url }}">Refund policy</a>{% endif %}{% if shop.policies.privacy_policy != blank %}<a href="{{ shop.policies.privacy_policy.url }}">Privacy policy</a>{% endif %}{% if shop.policies.terms_of_service != blank %}<a href="{{ shop.policies.terms_of_service.url }}">Terms of service</a>{% endif %}{% if shop.policies.shipping_policy != blank %}<a href="{{ shop.policies.shipping_policy.url }}">Shipping policy</a>{% endif %}{% if shop.email != blank %}<a href="mailto:{{ shop.email }}">Contact</a>{% endif %}
+</div></div></div></footer>
+{% schema %}{"name":"Footer","settings":[{"type":"text","id":"newsletter_heading","label":"Newsletter heading","default":"Sign up and Save"},{"type":"text","id":"newsletter_text","label":"Newsletter text","default":"Be the first to know about our latest drop, discounts, offers, and more!"},{"type":"text","id":"support_heading","label":"Support heading","default":"Support"},{"type":"link_list","id":"support_menu","label":"Support menu"},{"type":"text","id":"social_heading","label":"Social heading","default":"Socialize"},{"type":"url","id":"facebook_url","label":"Facebook URL"},{"type":"url","id":"instagram_url","label":"Instagram URL"},{"type":"url","id":"youtube_url","label":"YouTube URL"},{"type":"url","id":"tiktok_url","label":"TikTok URL"},{"type":"url","id":"snapchat_url","label":"Snapchat URL"},{"type":"url","id":"pinterest_url","label":"Pinterest URL"}],"presets":[{"name":"Footer"}]}{% endschema %}
